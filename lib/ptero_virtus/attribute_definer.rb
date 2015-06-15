@@ -19,7 +19,6 @@ class PteroVirtus::AttributeDefiner
   end
 
   def define_setter
-    klass.virtus_writable_attributes ||= []
     klass.virtus_writable_attributes << @attribute
     klass.virtus_writable_attributes.uniq!
 
