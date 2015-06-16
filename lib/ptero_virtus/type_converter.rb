@@ -15,6 +15,14 @@ class PteroVirtus::TypeConverter
     Integer(value) rescue nil
   end
 
+  def convert_to_float
+    Float(value) rescue nil
+  end
+
+  def convert_to_string
+    value.to_s
+  end
+
   private
 
   attr_reader :type
