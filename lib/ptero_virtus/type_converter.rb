@@ -23,6 +23,10 @@ class PteroVirtus::TypeConverter
     value.to_s
   end
 
+  def convert_to_symbol
+    value.to_sym rescue nil
+  end
+
   private
 
   attr_reader :type
