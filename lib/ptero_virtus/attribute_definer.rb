@@ -1,4 +1,5 @@
 require_relative 'type_converter'
+require_relative 'class_extensions'
 
 class PteroVirtus::AttributeDefiner
 
@@ -7,8 +8,13 @@ class PteroVirtus::AttributeDefiner
     @attribute_name = attribute_name.to_sym
     @requested_type = requested_type
     @args = args
-    @layer = Module.new
-    klass.include(layer)
+
+    if klass.virtus_layer
+      @layer = klass.virtus_layer
+    else
+      @layer = Module.new
+      klass.include(layer)
+    end
   end
 
   def define_getter
@@ -27,7 +33,7 @@ class PteroVirtus::AttributeDefiner
     attribute = attribute_name
     default = args[:default]
     type = requested_type
-    
+
     layer.instance_eval do
       
       define_method("#{attribute}=") do |value|
