@@ -1,3 +1,5 @@
+require 'active_support/core_ext/object/deep_dup'
+
 require_relative 'type_converter'
 require_relative 'class_extensions'
 
@@ -42,7 +44,7 @@ class PteroVirtus::AttributeDefiner
       end
 
       define_method("set_virtus_default_#{attribute}") do
-        instance_variable_set(:"@#{attribute}", default)
+        instance_variable_set(:"@#{attribute}", default.deep_dup)
       end
     end
   end

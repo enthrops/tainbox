@@ -21,28 +21,28 @@ class PteroVirtus::TypeConverter
     send(method_name)
   end
 
-  def convert_to_integer
-    Integer(value) rescue nil
-  end
-
-  def convert_to_float
-    Float(value) rescue nil
-  end
-
-  def convert_to_string
-    value.to_s
-  end
-
-  def convert_to_symbol
-    value.to_sym rescue nil
-  end
-
-  def convert_to_boolean
-    !!value
-  end
-
   private
 
   attr_reader :type
   attr_reader :value
+end
+
+PteroVirtus.define_converter(Integer) do
+  Integer(value) rescue nil
+end
+
+PteroVirtus.define_converter(Float) do
+  Float(value) rescue nil
+end
+
+PteroVirtus.define_converter(String) do
+  value.to_s
+end
+
+PteroVirtus.define_converter(Symbol) do
+  value.to_sym rescue nil
+end
+
+PteroVirtus.define_converter('Boolean') do
+  !!value
 end
