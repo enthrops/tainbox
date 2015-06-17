@@ -4,6 +4,12 @@ module PteroVirtus::InstanceMethods
     self.attributes = attributes
   end
 
+  def attributes
+    self.class.virtus_readable_attributes.map do |attribute|
+      [attribute, send(attribute)]
+    end.to_h
+  end
+
   def attributes=(attributes)
     self.class.virtus_writable_attributes.each do |attribute|
       given = attributes.has_key?(attribute) || attributes.has_key?(attribute.to_s)

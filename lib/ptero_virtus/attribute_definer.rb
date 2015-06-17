@@ -20,6 +20,9 @@ class PteroVirtus::AttributeDefiner
   end
 
   def define_getter
+    klass.virtus_readable_attributes << attribute_name
+    klass.virtus_readable_attributes.uniq!
+
     attribute = attribute_name
     layer.instance_eval do
       define_method(attribute) do
