@@ -5,11 +5,11 @@ require_relative 'class_extensions'
 
 class PteroVirtus::AttributeDefiner
 
-  def initialize(klass, attribute_name, requested_type, args)
+  def initialize(klass, attribute_name, requested_type, requested_args)
     @klass = klass
     @attribute_name = attribute_name.to_sym
     @requested_type = requested_type
-    @args = args
+    @requested_args = requested_args
 
     if klass.virtus_layer
       @layer = klass.virtus_layer
@@ -33,18 +33,20 @@ class PteroVirtus::AttributeDefiner
     klass.virtus_writable_attributes.uniq!
 
     attribute = attribute_name
-    default = args[:default]
+    args = requested_args
     type = requested_type
 
     layer.instance_eval do
       
       define_method("#{attribute}=") do |value|
-        value = PteroVirtus::TypeConverter.new(type, value).convert if type && !value.nil?
+        if type && !value.nil?
+          value = PteroVirtus::TypeConverter.new(type, value, options: args).convert
+        end
         instance_variable_set(:"@#{attribute}", value)
       end
 
       define_method("set_virtus_default_#{attribute}") do
-        instance_variable_set(:"@#{attribute}", default.deep_dup)
+        instance_variable_set(:"@#{attribute}", args[:default].deep_dup)
       end
     end
   end
@@ -52,9 +54,8 @@ class PteroVirtus::AttributeDefiner
   private
 
   attr_reader :klass
+  attr_reader :layer
   attr_reader :attribute_name
   attr_reader :requested_type
-  attr_reader :args
-  attr_reader :layer
-  attr_reader :args
+  attr_reader :requested_args
 end
