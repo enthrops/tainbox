@@ -39,9 +39,7 @@ class PteroVirtus::AttributeDefiner
     layer.instance_eval do
       
       define_method("#{attribute}=") do |value|
-        if type && !value.nil?
-          value = PteroVirtus::TypeConverter.new(type, value, options: args).convert
-        end
+        value = PteroVirtus::TypeConverter.new(type, value, options: args).convert if type
         instance_variable_set(:"@#{attribute}", value)
       end
 
