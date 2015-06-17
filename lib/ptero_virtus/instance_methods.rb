@@ -6,8 +6,8 @@ module PteroVirtus::InstanceMethods
 
   def attributes
     self.class.virtus_readable_attributes.map do |attribute|
-      [attribute, send(attribute)]
-    end.to_h
+      [attribute, send(attribute)] if respond_to?(attribute, true)
+    end.compact.to_h
   end
 
   def attributes=(attributes)
@@ -17,11 +17,11 @@ module PteroVirtus::InstanceMethods
       if given
         value = attributes[attribute] || attributes[attribute.to_s]
         method_name = "#{attribute}="
-        public_send(method_name, value) if respond_to?(method_name)
+        send(method_name, value) if respond_to?(method_name, true)
 
       else
         method_name = "set_virtus_default_#{attribute}"
-        public_send(method_name) if respond_to?(method_name)
+        send(method_name) if respond_to?(method_name, true)
       end
     end
   end
