@@ -1,3 +1,7 @@
+require 'active_support/core_ext/hash/keys'
+
+require_relative 'extensions'
+
 module PteroVirtus::InstanceMethods
 
   def initialize(attributes = {})
@@ -5,24 +9,27 @@ module PteroVirtus::InstanceMethods
   end
 
   def attributes
-    self.class.virtus_readable_attributes.map do |attribute|
+    self.class.virtus_attributes.map do |attribute|
       [attribute, send(attribute)] if respond_to?(attribute, true)
     end.compact.to_h
   end
 
   def attributes=(attributes)
-    self.class.virtus_writable_attributes.each do |attribute|
-      given = attributes.has_key?(attribute) || attributes.has_key?(attribute.to_s)
+    attributes = attributes.symbolize_keys
+    self.class.virtus_attributes.each do |attribute|
 
-      if given
-        value = attributes[attribute] || attributes[attribute.to_s]
+      if attributes.has_key?(attribute)
         method_name = "#{attribute}="
-        send(method_name, value) if respond_to?(method_name, true)
+        send(method_name, attributes[attribute]) if respond_to?(method_name, true)
 
       else
-        method_name = "set_virtus_default_#{attribute}"
+        method_name = "virtus_set_default_#{attribute}"
         send(method_name) if respond_to?(method_name, true)
       end
     end
+  end
+
+  def attribute_provided?(attribute)
+    virtus_provided_attributes.include?(attribute.to_sym)
   end
 end

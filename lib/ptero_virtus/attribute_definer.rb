@@ -1,7 +1,7 @@
 require 'active_support/core_ext/object/deep_dup'
 
 require_relative 'type_converter'
-require_relative 'class_extensions'
+require_relative 'extensions'
 
 class PteroVirtus::AttributeDefiner
 
@@ -10,21 +10,13 @@ class PteroVirtus::AttributeDefiner
     @attribute_name = attribute_name.to_sym
     @requested_type = requested_type
     @requested_args = requested_args
-
-    if klass.virtus_layer
-      @layer = klass.virtus_layer
-    else
-      @layer = Module.new
-      klass.include(layer)
-    end
   end
 
   def define_getter
-    klass.virtus_readable_attributes << attribute_name
-    klass.virtus_readable_attributes.uniq!
-
+    klass.virtus_register_attribute(attribute_name)
     attribute = attribute_name
-    layer.instance_eval do
+
+    klass.virtus_layer.instance_eval do
       define_method(attribute) do
         instance_variable_get(:"@#{attribute}")
       end
@@ -32,22 +24,25 @@ class PteroVirtus::AttributeDefiner
   end
 
   def define_setter
-    klass.virtus_writable_attributes << attribute_name
-    klass.virtus_writable_attributes.uniq!
+    klass.virtus_register_attribute(attribute_name)
 
     attribute = attribute_name
     args = requested_args
     type = requested_type
 
-    layer.instance_eval do
+    klass.virtus_layer.instance_eval do
       
       define_method("#{attribute}=") do |value|
+        virtus_register_attribute_provided(attribute)
         value = PteroVirtus::TypeConverter.new(type, value, options: args).convert if type
         instance_variable_set(:"@#{attribute}", value)
       end
 
-      define_method("set_virtus_default_#{attribute}") do
-        instance_variable_set(:"@#{attribute}", args[:default].deep_dup)
+      define_method("virtus_set_default_#{attribute}") do
+        if args.has_key?(:default)
+          virtus_register_attribute_provided(attribute)
+          instance_variable_set(:"@#{attribute}", args[:default].deep_dup)
+        end
       end
     end
   end
@@ -55,7 +50,6 @@ class PteroVirtus::AttributeDefiner
   private
 
   attr_reader :klass
-  attr_reader :layer
   attr_reader :attribute_name
   attr_reader :requested_type
   attr_reader :requested_args
