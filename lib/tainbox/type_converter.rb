@@ -1,6 +1,6 @@
 require 'active_support/values/time_zone'
 
-class PteroVirtus::TypeConverter
+class Tainbox::TypeConverter
 
   def self.define_converter(type, block)
     method_name = conversion_method_name_for(type)
@@ -31,27 +31,27 @@ class PteroVirtus::TypeConverter
   attr_reader :options
 end
 
-PteroVirtus.define_converter(Integer) do
+Tainbox.define_converter(Integer) do
   Integer(value) rescue nil
 end
 
-PteroVirtus.define_converter(Float) do
+Tainbox.define_converter(Float) do
   Float(value) rescue nil
 end
 
-PteroVirtus.define_converter(String) do
+Tainbox.define_converter(String) do
   value.to_s
 end
 
-PteroVirtus.define_converter(Symbol) do
+Tainbox.define_converter(Symbol) do
   value.to_sym rescue nil
 end
 
-PteroVirtus.define_converter(Time) do
+Tainbox.define_converter(Time) do
   value.is_a?(Time) ? value : (Time.zone.parse(value) rescue nil)
 end
 
-PteroVirtus.define_converter(:Boolean) do
+Tainbox.define_converter(:Boolean) do
   strict = options.fetch(:strict, true)
   if !strict && %w(true on 1).include?(value)
     true
