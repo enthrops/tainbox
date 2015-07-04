@@ -16,6 +16,7 @@ module Tainbox::InstanceMethods
 
   # TODO Reset attributes that are missing in parameter hash
   def attributes=(attributes)
+    attributes ||= {}
     attributes = attributes.symbolize_keys
     self.class.tainbox_attributes.each do |attribute|
 
