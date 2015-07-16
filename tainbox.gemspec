@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dmitry Gubitskiy']
   spec.email         = ['d.gubitskiy@gmail.com']
 
-  # TODO Proper summary
-  spec.summary       = 'Tainbox summary'
+  spec.summary       = 'Tainbox is a utility gem that can be used to inject attributes '\
+                       'into ruby objects. It is similar to Virtus, but works a bit more '\
+                       'sensibly (hopefully) and throws in some additional features'
   spec.homepage      = 'https://github.com/enthrops/tainbox'
   spec.license       = 'MIT'
 
