@@ -25,6 +25,19 @@ person.attributes = {}
 person.attributes # => { :name => "person_20", :age => 20 }
 ```
 
+## But what's wrong with Virtus?
+
+Observe:
+
+``` ruby
+class Person
+  include Virtus::Model
+  attribute :age, Integer
+end
+
+Person.new(age: 'invalid_integer').age # => "invalid_integer"
+```
+
 ## Additional features
 
 ### Method overrides
