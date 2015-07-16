@@ -93,3 +93,14 @@ Tainbox.define_converter(MyType) do
   options[:strict] ? MyType.convert!(value) : MyType.convert(value)
 end
 ```
+
+### Suppressing tainbox initializer
+
+If you don't want to pollute your class with tainbox initializer you can do:
+
+``` ruby
+class Person
+  include Tainbox
+  suppress_tainbox_initializer!
+end
+```

@@ -4,8 +4,13 @@ require_relative 'extensions'
 
 module Tainbox::InstanceMethods
 
-  def initialize(attributes = {})
-    self.attributes = attributes
+  def initialize(*args)
+    attributes = (args.length >= 1) ? args.first : {}
+    if self.class.tainbox_initialize_suppressed?
+      super
+    else
+      self.attributes = attributes
+    end
   end
 
   def attributes
