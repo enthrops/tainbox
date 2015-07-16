@@ -2,6 +2,7 @@ require 'active_support/core_ext/object/deep_dup'
 
 require_relative 'type_converter'
 require_relative 'extensions'
+require_relative 'deferred_value'
 
 class Tainbox::AttributeDefiner
 
@@ -18,7 +19,8 @@ class Tainbox::AttributeDefiner
 
     klass.tainbox_layer.instance_eval do
       define_method(attribute) do
-        instance_variable_get(:"@#{attribute}")
+        value = instance_variable_get(:"@#{attribute}")
+        value.is_a?(Tainbox::DeferredValue) ? instance_exec(&value.proc) : value
       end
     end
   end
@@ -41,7 +43,9 @@ class Tainbox::AttributeDefiner
       define_method("tainbox_set_default_#{attribute}") do
         if args.has_key?(:default)
           tainbox_register_attribute_provided(attribute)
-          instance_variable_set(:"@#{attribute}", args[:default].deep_dup)
+          value = args[:default].deep_dup
+          value = Tainbox::DeferredValue.new(value) if value.is_a?(Proc)
+          instance_variable_set(:"@#{attribute}", value)
         end
       end
     end
