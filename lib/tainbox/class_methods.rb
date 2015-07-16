@@ -7,7 +7,7 @@ module Tainbox::ClassMethods
     subclass.tainbox_attributes = tainbox_attributes.dup
   end
 
-  def tainbox_initialize_suppressed?
+  def tainbox_initializer_suppressed?
     !!tainbox_initializer_suppressed
   end
 
