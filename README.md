@@ -72,7 +72,7 @@ person.attribute_provided?(:age) # => false
 person.attribute_provided?(:name) # => true
 ```
 
-### readonly and writeonly attributes
+### Readonly and writeonly attributes
 
 Speaks for itself:
 
