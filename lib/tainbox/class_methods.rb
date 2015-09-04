@@ -17,7 +17,7 @@ module Tainbox::ClassMethods
 
   def attribute(name, type = nil, **args)
     args = args.dup
-    readonly, writeonly = args.delete(:writeonly), args.delete(:readonly)
+    readonly, writeonly = args.delete(:readonly), args.delete(:writeonly)
     definer = Tainbox::AttributeDefiner.new(self, name, type, args)
     definer.define_getter unless writeonly
     definer.define_setter unless readonly
