@@ -10,6 +10,7 @@ module Tainbox
   end
 end
 
+require_relative 'tainbox/version'
 require_relative 'tainbox/class_methods'
 require_relative 'tainbox/instance_methods'
 require_relative 'tainbox/type_converter'
