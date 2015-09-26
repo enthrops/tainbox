@@ -5,15 +5,20 @@ module Tainbox::ClassMethods
 
   def inherited(subclass)
     subclass.tainbox_attributes = tainbox_attributes.dup
+    subclass.tainbox_initializer_suppressed = tainbox_initializer_suppressed
   end
 
   def tainbox_initializer_suppressed?
     !!tainbox_initializer_suppressed
   end
 
+  protected
+
+  attr_writer :tainbox_initializer_suppressed
+
   private
 
-  attr_accessor :tainbox_initializer_suppressed
+  attr_reader :tainbox_initializer_suppressed
 
   def attribute(name, type = nil, **args)
     args = args.dup
