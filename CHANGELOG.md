@@ -7,3 +7,7 @@
 ## 0.2.5
 
 * `suppress_tainbox_initializer!` is inherited correctly
+
+## 0.2.6
+
+* raise `ArgumentError` if trying to assign a non-hash to `#attributes`
