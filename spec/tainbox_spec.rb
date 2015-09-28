@@ -1,11 +1,16 @@
 require 'spec_helper'
 
 describe Tainbox do
-  it 'has a version number' do
-    expect(Tainbox::VERSION).not_to be nil
+
+  Person = Class.new do
+    include Tainbox
+    attribute :name
+    attribute :age, Integer
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'works' do
+    person = Person.new(name: 'John', 'age' => '24')
+    expect(person.name).to eq('John')
+    expect(person.age).to eq(24)
   end
 end
