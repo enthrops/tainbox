@@ -20,6 +20,10 @@ module Tainbox::InstanceMethods
   end
 
   def attributes=(attributes)
+    unless attributes.is_a?(Hash)
+      raise ArgumentError, 'Attributes can only be assigned via a hash'
+    end
+
     attributes = attributes.symbolize_keys
     self.class.tainbox_attributes.each do |attribute|
 
