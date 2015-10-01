@@ -46,6 +46,10 @@ class Tainbox::AttributeDefiner
           value = args[:default].deep_dup
           value = Tainbox::DeferredValue.new(value) if value.is_a?(Proc)
           instance_variable_set(:"@#{attribute}", value)
+
+        else
+          tainbox_unregister_attribute_provided(attribute)
+          instance_variable_set(:"@#{attribute}", nil)
         end
       end
     end

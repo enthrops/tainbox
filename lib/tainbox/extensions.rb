@@ -32,4 +32,8 @@ class Object
     tainbox_provided_attributes << attribute
     tainbox_provided_attributes.uniq!
   end
+
+  def tainbox_unregister_attribute_provided(attribute)
+    tainbox_provided_attributes.delete(attribute)
+  end
 end

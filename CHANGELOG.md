@@ -11,3 +11,8 @@
 ## 0.2.6
 
 * raise `ArgumentError` if trying to assign a non-hash to `#attributes`
+
+## 0.2.7
+
+* Attribute is always set to nil and marked as not provided when the hash assigned via
+`#attributes=` or `#new` does not have that attribute and the attribute does not have a default
