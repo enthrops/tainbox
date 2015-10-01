@@ -19,7 +19,7 @@ class Tainbox::AttributeDefiner
 
     klass.tainbox_layer.instance_eval do
       define_method(attribute) do
-        value = instance_variable_get(:"@#{attribute}")
+        value = instance_variable_get(:"@tainbox_#{attribute}")
         value.is_a?(Tainbox::DeferredValue) ? instance_exec(&value.proc) : value
       end
     end
@@ -37,7 +37,7 @@ class Tainbox::AttributeDefiner
       define_method("#{attribute}=") do |value|
         tainbox_register_attribute_provided(attribute)
         value = Tainbox::TypeConverter.new(type, value, options: args).convert if type
-        instance_variable_set(:"@#{attribute}", value)
+        instance_variable_set(:"@tainbox_#{attribute}", value)
       end
 
       define_method("tainbox_set_default_#{attribute}") do
@@ -45,11 +45,11 @@ class Tainbox::AttributeDefiner
           tainbox_register_attribute_provided(attribute)
           value = args[:default].deep_dup
           value = Tainbox::DeferredValue.new(value) if value.is_a?(Proc)
-          instance_variable_set(:"@#{attribute}", value)
+          instance_variable_set(:"@tainbox_#{attribute}", value)
 
         else
           tainbox_unregister_attribute_provided(attribute)
-          instance_variable_set(:"@#{attribute}", nil)
+          instance_variable_set(:"@tainbox_#{attribute}", nil)
         end
       end
     end
