@@ -19,4 +19,4 @@
 
 ## 0.2.8
 
-* Prepend internal variables with 'tainbox_' to avoid clashes with client code
+* Prepend internal variables with 'tainbox\_' to avoid clashes with client code
