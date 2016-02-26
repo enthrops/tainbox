@@ -40,7 +40,8 @@ Tainbox.define_converter(Float) do
 end
 
 Tainbox.define_converter(String) do
-  value.to_s
+  strip = options.fetch(:strip, false)
+  value.to_s.tap { |result| result.strip! if strip }
 end
 
 Tainbox.define_converter(Symbol) do

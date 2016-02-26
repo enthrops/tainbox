@@ -20,3 +20,7 @@
 ## 0.2.8
 
 * Prepend internal variables with 'tainbox\_' to avoid clashes with client code
+
+## 0.3.0
+
+* String converter supports `strip` option to strip values
