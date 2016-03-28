@@ -107,6 +107,22 @@ Tainbox.define_converter(MyType) do
 end
 ```
 
+### `as_json`
+
+``` ruby
+class Person
+  include Tainbox
+  attribute :name
+  attribute :age
+end
+
+person = Person.new(name: 'John', age: 20)
+
+person.as_json                # => { 'name' => 'John', 'age' => 20 }
+person.as_json(only: :name)   # => { 'name' => 'John' }
+person.as_json(except: :name) # => { 'age' => 20 }
+```
+
 ### Suppressing tainbox initializer
 
 If you don't want to pollute your class with tainbox initializer you can do:

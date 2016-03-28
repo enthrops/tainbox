@@ -30,5 +30,7 @@ describe Tainbox do
     person.age = 10
     expect(person.age).to eq(10)
     expect(person.attribute_provided?(:age)).to be_truthy
+
+    expect(person.as_json).to eq('name' => 'Oliver', 'age' => 10)
   end
 end

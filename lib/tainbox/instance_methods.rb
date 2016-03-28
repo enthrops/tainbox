@@ -1,4 +1,5 @@
 require 'active_support/core_ext/hash/keys'
+require 'active_support/core_ext/object/json'
 
 require_relative 'extensions'
 
@@ -36,6 +37,10 @@ module Tainbox::InstanceMethods
         send(method_name) if respond_to?(method_name, true)
       end
     end
+  end
+
+  def to_hash
+    attributes
   end
 
   def attribute_provided?(attribute)

@@ -24,3 +24,7 @@
 ## 0.3.0
 
 * String converter supports `strip` option to strip values
+
+## 1.0.0
+
+* `as_json` support for tainbox objects
