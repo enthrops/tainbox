@@ -39,11 +39,11 @@ module Tainbox::InstanceMethods
     end
   end
 
-  def to_hash
-    attributes
-  end
-
   def attribute_provided?(attribute)
     tainbox_provided_attributes.include?(attribute.to_sym)
+  end
+
+  def as_json(*args)
+    attributes.as_json(*args)
   end
 end

@@ -28,3 +28,8 @@
 ## 1.0.0
 
 * `as_json` support for tainbox objects
+
+## 1.0.1
+
+* `as_json` implementation does not use `to_hash` to
+avoid automatic casting from double star parameters
