@@ -33,3 +33,7 @@
 
 * `as_json` implementation does not use `to_hash` to
 avoid automatic casting from double star parameters
+
+## 1.1.0
+
+* String converter supports `downcase` option to downcase values

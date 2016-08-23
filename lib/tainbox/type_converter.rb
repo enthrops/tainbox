@@ -41,7 +41,17 @@ end
 
 Tainbox.define_converter(String) do
   strip = options.fetch(:strip, false)
-  value.to_s.tap { |result| result.strip! if strip }
+  downcase = options.fetch(:downcase, false)
+  result = value.to_s
+
+  result = result.strip if strip
+
+  if downcase
+    result = result.mb_chars if result.respond_to?(:mb_chars)
+    result = result.downcase
+  end
+
+  result
 end
 
 Tainbox.define_converter(Symbol) do

@@ -95,6 +95,17 @@ All converters return nil if conversion could not be made.
 - Time
 - Boolean
 
+### String type converter options
+
+String converter supports additional options: `strip` and `downcase` which strip and downcase
+input attribute values respectively
+
+Example:
+
+``` ruby
+attribute :name, String, strip: true, downcase: true
+```
+
 ### Custom type converters
 
 You can define a custom type converter like so:
