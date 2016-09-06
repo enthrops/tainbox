@@ -37,3 +37,7 @@ avoid automatic casting from double star parameters
 ## 1.1.0
 
 * String converter supports `downcase` option to downcase values
+
+## 1.2.0
+
+* Attributes can be assigned via any object which responds to `to_h`

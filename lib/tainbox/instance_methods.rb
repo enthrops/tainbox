@@ -21,8 +21,10 @@ module Tainbox::InstanceMethods
   end
 
   def attributes=(attributes)
-    unless attributes.is_a?(Hash)
-      raise ArgumentError, 'Attributes can only be assigned via a hash'
+    if attributes.respond_to?(:to_h)
+      attributes = attributes.to_h
+    else
+      raise ArgumentError, 'Attributes can only be assigned via objects which respond to #to_h'
     end
 
     attributes = attributes.symbolize_keys

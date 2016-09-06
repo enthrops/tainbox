@@ -37,6 +37,26 @@ describe Tainbox do
     expect(person.as_json(except: :name)).to eq('age' => 10)
   end
 
+  it 'accepts objects which respond to #to_h as attributes' do
+
+    person = Class.new do
+      include Tainbox
+      attribute :name, default: 'Oliver'
+      attribute :age, Integer
+
+      def name
+        super.strip
+      end
+    end
+
+    expect(person.new(name: 'John').name).to eq('John')
+    expect(person.new([[:name, 'John']]).name).to eq('John')
+    expect(person.new(nil).name).to eq('Oliver')
+
+    exception = 'Attributes can only be assigned via objects which respond to #to_h'
+    expect { person.new('Hello world') }.to raise_exception(ArgumentError, exception)
+  end
+
   describe 'string converter options' do
 
     describe 'no options' do
