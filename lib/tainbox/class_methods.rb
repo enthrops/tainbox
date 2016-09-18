@@ -22,10 +22,12 @@ module Tainbox::ClassMethods
 
   def attribute(name, type = nil, **args)
     args = args.dup
-    readonly, writeonly = args.delete(:readonly), args.delete(:writeonly)
+    define_reader = args.fetch(:reader, true)
+    define_writer = args.fetch(:writer, true)
+
     definer = Tainbox::AttributeDefiner.new(self, name, type, args)
-    definer.define_getter unless writeonly
-    definer.define_setter unless readonly
+    definer.define_getter if define_reader
+    definer.define_setter if define_writer
   end
 
   def suppress_tainbox_initializer!

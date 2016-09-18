@@ -72,15 +72,15 @@ person.attribute_provided?(:age) # => false
 person.attribute_provided?(:name) # => true
 ```
 
-### Readonly and writeonly attributes
+### Disabling automatic attribute readers and writers
 
 Speaks for itself:
 
 ``` ruby
 class Person
   include Tainbox
-  attribute :name, writeonly: true
-  attribute :age, readonly: true
+  attribute :name, reader: false
+  attribute :age, writer: false
 end
 ```
 
