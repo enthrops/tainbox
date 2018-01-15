@@ -143,4 +143,27 @@ describe Tainbox do
       end
     end
   end
+
+  describe 'patching params' do
+    let(:person) do
+      Class.new do
+        include Tainbox
+
+        attribute :name, default: 'Oliver'
+        attribute :age, Integer
+
+        def name
+          super.strip
+        end
+      end
+    end
+
+    let(:attributes) { Hash[name: 'John'] }
+
+    it 'changes only provided attributes' do
+      oliver = person.new(age: 21)
+      expect { oliver.patch_attributes(attributes) }.not_to change { oliver.age }
+      expect(oliver.name).to eq('John')
+    end
+  end
 end
