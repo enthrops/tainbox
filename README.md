@@ -25,9 +25,8 @@ person.attributes = {}
 person.attributes # => { :name => "person_20", :age => 20 }
 ```
 
-*NOTE* There exists two instance methods `attributes=` and `patch_attrubutes(attributes)`
-which can reassign your params. Difference is that the first one will fill missing
-keys with `nil`, but the second one - will reassign only keys existing in `attributes` hash.
+*NOTE* There are two ways to change attributes in bulk. attributes= replaces missing values
+with nils or default values, while patch_attributes leaves missing attributes untouched.
 
 ## But what's wrong with Virtus?
 
