@@ -46,3 +46,7 @@ avoid automatic casting from double star parameters
 
 * Replace `readonly` and `writeonly` options with `reader` and `writer` options for better
 semantics
+
+## 2.1.0
+
+* Add `patch_attributes` method
