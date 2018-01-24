@@ -59,7 +59,7 @@ Tainbox.define_converter(Symbol) do
 end
 
 Tainbox.define_converter(Time) do
-  value.is_a?(Time) ? value : (Time.zone.parse(value) rescue nil)
+  value.is_a?(Time) ? value : (Time.zone.parse(value.to_s) rescue nil)
 end
 
 Tainbox.define_converter(:Boolean) do
