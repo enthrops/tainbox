@@ -1,6 +1,7 @@
-# Tainbox
-
+[![Gem Version](https://badge.fury.io/rb/tainbox.svg)](https://badge.fury.io/rb/tainbox)
 [![Build Status](https://travis-ci.org/enthrops/tainbox.svg?branch=master)](https://travis-ci.org/enthrops/tainbox)
+
+# Tainbox
 
 Tainbox is a utility gem that can be used to inject attributes into Ruby objects. It is similar to <a href="https://github.com/solnic/virtus">Virtus</a>, but works a bit more sensibly (hopefully) and throws in some additional features.
 
