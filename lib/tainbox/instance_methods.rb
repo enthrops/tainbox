@@ -47,8 +47,8 @@ module Tainbox::InstanceMethods
 
   def patch_attributes(attributes)
     if attributes.respond_to?(:to_h)
-      attributes.to_h.each do |key, value|
-        send("#{key}=", value) if self.class.tainbox_attributes.include?(key)
+      attributes.to_h.slice(*self.class.tainbox_attributes).each do |key, value|
+        send("#{key}=", value) if respond_to?(key)
       end
     else
       raise ArgumentError, 'Attributes can only be assigned via objects which respond to #to_h'
