@@ -16,7 +16,7 @@ module Tainbox::InstanceMethods
 
   def attributes
     self.class.tainbox_attributes.map do |attribute|
-      [attribute, send(attribute)] if respond_to?(attribute, true)
+      [attribute, send(attribute)] if respond_to?(attribute)
     end.compact.to_h
   end
 

@@ -26,8 +26,8 @@ module Tainbox::ClassMethods
     define_writer = args.fetch(:writer, true)
 
     definer = Tainbox::AttributeDefiner.new(self, name, type, args)
-    definer.define_getter if define_reader
-    definer.define_setter if define_writer
+    definer.define_getter(define_reader)
+    definer.define_setter(define_writer)
   end
 
   def suppress_tainbox_initializer!
