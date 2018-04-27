@@ -1,3 +1,4 @@
+require 'active_support/core_ext/array/wrap'
 require 'active_support/values/time_zone'
 
 class Tainbox::TypeConverter
@@ -71,4 +72,8 @@ Tainbox.define_converter(:Boolean) do
   else
     !!value
   end
+end
+
+Tainbox.define_converter(Array) do
+  Array.wrap(value) rescue nil
 end

@@ -166,4 +166,34 @@ describe Tainbox do
       expect(oliver.name).to eq('John')
     end
   end
+
+  describe 'array converter' do
+    subject { person.phone_numbers }
+
+    let(:person) do
+      Class.new do
+        include Tainbox
+
+        attribute :phone_numbers, Array
+      end.new(phone_numbers: phone_numbers)
+    end
+
+    context 'without value' do
+      let(:phone_numbers) { nil }
+
+      it { is_expected.to eq([]) }
+    end
+
+    context 'with array as a value' do
+      let(:phone_numbers) { [12345, 67890] }
+
+      it { is_expected.to eq(phone_numbers) }
+    end
+
+    context 'with string as a value' do
+      let(:phone_numbers) { '+1 234-500' }
+
+      it { is_expected.to eq([phone_numbers]) }
+    end
+  end
 end
