@@ -54,3 +54,7 @@ semantics
 ## 2.1.1
 
 * Fix `Time` converter
+
+## 2.2.0
+
+* Add `Array` converter
