@@ -19,6 +19,7 @@ describe Tainbox do
     expect(person.age).to eq(24)
     expect(person.attribute_provided?(:name)).to be_truthy
     expect(person.attribute_provided?(:age)).to be_truthy
+    expect(person.provided_attributes).to eq(%i[name age])
 
     person.attributes = {}
     expect(person.name).to eq('Oliver')
@@ -27,10 +28,13 @@ describe Tainbox do
     expect(person.attribute_provided?(:age)).to be_falsey
 
     expect(person.attributes).to eq(name: 'Oliver', age: nil)
+    expect(person.provided_attributes).to be_empty
 
     person.age = 10
     expect(person.age).to eq(10)
     expect(person.attribute_provided?(:age)).to be_truthy
+
+    expect(person.provided_attributes).to eq(%i[age])
 
     expect(person.as_json).to eq('name' => 'Oliver', 'age' => 10)
     expect(person.as_json(only: :name)).to eq('name' => 'Oliver')

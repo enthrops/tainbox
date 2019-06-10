@@ -62,7 +62,7 @@ def name=(value)
 end
 ```
 
-### #attribute_provided?
+### `#provided_attributes` and `#attribute_provided?`
 
 Attribute is considered provided if its setter was explicitly invoked via a setter, `.new`, or `#attributes=`.
 
@@ -75,14 +75,17 @@ end
 
 person = Person.new('age' => '24')
 
+person.provided_attributes # => [:age]
 person.attribute_provided?(:name) # => false
 person.attribute_provided?(:age) # => true
 
 person.name = 'John'
+person.provided_attributes # => [:name, :age]
 person.attribute_provided?(:name) # => true
 person.attribute_provided?(:age) # => true
 
 person.attributes = {}
+person.provided_attributes # => []
 person.attribute_provided?(:name) # => false
 person.attribute_provided?(:age) # => false
 ```
