@@ -1,3 +1,5 @@
+require 'set'
+
 class Class
 
   attr_writer :tainbox_attributes
@@ -11,12 +13,11 @@ class Class
   end
 
   def tainbox_attributes
-    @tainbox_attributes ||= []
+    @tainbox_attributes ||= Set.new
   end
 
   def tainbox_register_attribute(attribute)
     tainbox_attributes << attribute
-    tainbox_attributes.uniq!
   end
 end
 
@@ -25,12 +26,11 @@ class Object
   private
 
   def tainbox_provided_attributes
-    @tainbox_provided_attributes ||= []
+    @tainbox_provided_attributes ||= Set.new
   end
 
   def tainbox_register_attribute_provided(attribute)
     tainbox_provided_attributes << attribute
-    tainbox_provided_attributes.uniq!
   end
 
   def tainbox_unregister_attribute_provided(attribute)
