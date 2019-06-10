@@ -16,12 +16,15 @@ class Tainbox::AttributeDefiner
   def define_getter
     klass.tainbox_register_attribute(attribute_name)
     attribute = attribute_name
+    type = requested_type
 
     klass.tainbox_layer.instance_eval do
       define_method(attribute) do
         value = instance_variable_get(:"@tainbox_#{attribute}")
         value.is_a?(Tainbox::DeferredValue) ? instance_exec(&value.proc) : value
       end
+
+      alias_method("#{attribute}?", attribute) if type == :Boolean
     end
   end
 
@@ -38,6 +41,13 @@ class Tainbox::AttributeDefiner
         tainbox_register_attribute_provided(attribute)
         value = Tainbox::TypeConverter.new(type, value, options: args).convert if type
         instance_variable_set(:"@tainbox_#{attribute}", value)
+      end
+
+      if type == :Boolean
+        define_method("#{attribute}!") do
+          send("#{attribute}=", true)
+          self
+        end
       end
 
       define_method("tainbox_set_default_#{attribute}") do

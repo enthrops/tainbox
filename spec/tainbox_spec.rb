@@ -6,35 +6,95 @@ describe Tainbox do
 
     person = Class.new do
       include Tainbox
-      attribute :name, default: 'Oliver'
+
+      attribute :name, default: 'Anonymous'
       attribute :age, Integer
+      attribute :admin?, default: false
 
       def name
         super.strip
       end
     end
 
-    person = person.new(name: ' John ', 'age' => '24')
+    person = person.new(name: ' John ', 'age' => '24', 'admin' => '1')
+
     expect(person.name).to eq('John')
-    expect(person.age).to eq(24)
     expect(person.attribute_provided?(:name)).to be_truthy
+
+    expect(person.age).to eq(24)
     expect(person.attribute_provided?(:age)).to be_truthy
 
+    expect(person.admin).to eq(true)
+    expect(person.admin?).to eq(true)
+    expect(person.attribute_provided?(:admin)).to be_truthy
+
+    expect(person.attributes).to eq(name: 'John', age: 24, admin: true)
+    expect(person.as_json).to eq('name' => 'John', 'age' => 24, 'admin' => true)
+
     person.attributes = {}
-    expect(person.name).to eq('Oliver')
-    expect(person.age).to be_nil
+
+    expect(person.name).to eq('Anonymous')
     expect(person.attribute_provided?(:name)).to be_truthy
+
+    expect(person.age).to be_nil
     expect(person.attribute_provided?(:age)).to be_falsey
 
-    expect(person.attributes).to eq(name: 'Oliver', age: nil)
+    expect(person.admin).to eq(false)
+    expect(person.admin?).to eq(false)
+    expect(person.attribute_provided?(:admin)).to be_truthy
+
+    expect(person.attributes).to eq(name: 'Anonymous', age: nil, admin: false)
+    expect(person.as_json).to eq('name' => 'Anonymous', 'age' => nil, 'admin' => false)
 
     person.age = 10
+
     expect(person.age).to eq(10)
     expect(person.attribute_provided?(:age)).to be_truthy
 
-    expect(person.as_json).to eq('name' => 'Oliver', 'age' => 10)
-    expect(person.as_json(only: :name)).to eq('name' => 'Oliver')
-    expect(person.as_json(except: :name)).to eq('age' => 10)
+    expect(person.admin!).to eq(person)
+
+    expect(person.admin).to eq(true)
+    expect(person.admin?).to eq(true)
+    expect(person.attribute_provided?(:admin)).to be_truthy
+
+    person.name = ' John '
+
+    expect(person.name).to eq('John')
+    expect(person.attribute_provided?(:name)).to be_truthy
+
+    expect(person.as_json).to eq('name' => 'John', 'age' => 10, 'admin' => true)
+    expect(person.as_json(only: :name)).to eq('name' => 'John')
+    expect(person.as_json(except: :name)).to eq('age' => 10, 'admin' => true)
+  end
+
+  it 'supports old syntax' do
+    person = Class.new do
+      include Tainbox
+
+      attribute :admin, :Boolean
+    end
+
+    person = person.new('admin' => '1')
+
+    expect(person.admin).to eq(true)
+    expect(person.attribute_provided?(:admin)).to be_truthy
+
+    expect(person.attributes).to eq(admin: true)
+    expect(person.as_json).to eq('admin' => true)
+
+    person.attributes = {}
+
+    expect(person.admin).to eq(nil)
+    expect(person.attribute_provided?(:admin)).to be_falsey
+
+    expect(person.attributes).to eq(admin: nil)
+    expect(person.as_json).to eq('admin' => nil)
+
+    person.admin = true
+
+    expect(person.admin).to eq(true)
+    expect(person.admin?).to eq(true)
+    expect(person.attribute_provided?(:admin)).to be_truthy
   end
 
   it 'accepts objects which respond to #to_h as attributes' do

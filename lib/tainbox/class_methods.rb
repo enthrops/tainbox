@@ -21,13 +21,17 @@ module Tainbox::ClassMethods
   attr_reader :tainbox_initializer_suppressed
 
   def attribute(name, type = nil, **args)
+    name = name.to_s
     args = args.dup
-    define_reader = args.fetch(:reader, true)
-    define_writer = args.fetch(:writer, true)
+
+    if name.end_with?('?')
+      name.chop!
+      type = :Boolean
+    end
 
     definer = Tainbox::AttributeDefiner.new(self, name, type, args)
-    definer.define_getter if define_reader
-    definer.define_setter if define_writer
+    definer.define_getter if args.fetch(:reader, true)
+    definer.define_setter if args.fetch(:writer, true)
   end
 
   def suppress_tainbox_initializer!
