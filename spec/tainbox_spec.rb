@@ -167,7 +167,7 @@ describe Tainbox do
     end
   end
 
-  describe 'convert to integer string with radix indicators' do
+  describe "Integer type" do
     let(:person) do
       Class.new do
         include Tainbox
@@ -176,26 +176,22 @@ describe Tainbox do
       end
     end
 
-    let(:attributes) { Hash[age: "014"] }
+    let(:attributes) { Hash[age: age] }
 
-    it "uses decimal number system as base" do
-      expect(person.new(attributes).age).to eq(14)
-    end
-  end
+    describe 'string with radix indicators' do
+      let(:age) { "014" }
 
-  describe 'float number with Integer type' do
-    let(:person) do
-      Class.new do
-        include Tainbox
-
-        attribute :age, Integer
+      it 'uses decimal number system as base' do
+        expect(person.new(attributes).age).to eq(14)
       end
     end
 
-    let(:attributes) { Hash[age: 14.2] }
+    describe 'float number' do
+      let(:age) { 14.2 }
 
-    it "converts properly" do
-      expect(person.new(attributes).age).to eq(14)
+      it 'converts properly' do
+        expect(person.new(attributes).age).to eq(14)
+      end
     end
   end
 end
