@@ -32,7 +32,7 @@ class Tainbox::TypeConverter
 end
 
 Tainbox.define_converter(Integer) do
-  Integer(value) rescue nil
+  value.is_a?(String) ? Integer(value, 10) : Integer(value) rescue nil
 end
 
 Tainbox.define_converter(Float) do
