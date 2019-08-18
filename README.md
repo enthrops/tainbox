@@ -94,7 +94,7 @@ end
 
 All converters return nil if conversion could not be made.
 
-- Integer (*converts from strings using decimal base*)
+- Integer (*string parsed as numbers in decimal number system*)
 - Float
 - String
 - Symbol
