@@ -166,4 +166,32 @@ describe Tainbox do
       expect(oliver.name).to eq('John')
     end
   end
+
+  describe "Integer type" do
+    let(:person) do
+      Class.new do
+        include Tainbox
+
+        attribute :age, Integer
+      end
+    end
+
+    let(:attributes) { Hash[age: age] }
+
+    describe 'string with radix indicators' do
+      let(:age) { "014" }
+
+      it 'uses decimal number system as base' do
+        expect(person.new(attributes).age).to eq(14)
+      end
+    end
+
+    describe 'float number' do
+      let(:age) { 14.2 }
+
+      it 'converts properly' do
+        expect(person.new(attributes).age).to eq(14)
+      end
+    end
+  end
 end

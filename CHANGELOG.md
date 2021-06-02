@@ -54,3 +54,8 @@ semantics
 ## 2.1.1
 
 * Fix `Time` converter
+
+## 2.1.2
+
+* Fix Integer type casting: Integer parses strings with leading zeros as numbers in octal number system
+* Update version of bundler
