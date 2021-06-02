@@ -1,3 +1,5 @@
+# This gem is no longer supported
+
 # Tainbox
 
 [![Gem Version](https://badge.fury.io/rb/tainbox.svg)](https://badge.fury.io/rb/tainbox)
