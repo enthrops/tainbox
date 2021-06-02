@@ -102,6 +102,7 @@ All converters return nil if conversion could not be made.
 - Symbol
 - Time
 - Boolean
+- Array
 
 ### String type converter options
 
