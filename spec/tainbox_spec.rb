@@ -23,7 +23,7 @@ describe Tainbox do
     person.attributes = {}
     expect(person.name).to eq('Oliver')
     expect(person.age).to be_nil
-    expect(person.attribute_provided?(:name)).to be_truthy
+    expect(person.attribute_provided?(:name)).to be_falsey
     expect(person.attribute_provided?(:age)).to be_falsey
 
     expect(person.attributes).to eq(name: 'Oliver', age: nil)

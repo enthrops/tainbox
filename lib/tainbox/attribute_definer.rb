@@ -41,14 +41,14 @@ class Tainbox::AttributeDefiner
       end
 
       define_method("tainbox_set_default_#{attribute}") do
+        tainbox_unregister_attribute_provided(attribute)
+
         if args.has_key?(:default)
-          tainbox_register_attribute_provided(attribute)
           value = args[:default].deep_dup
           value = Tainbox::DeferredValue.new(value) if value.is_a?(Proc)
           instance_variable_set(:"@tainbox_#{attribute}", value)
 
         else
-          tainbox_unregister_attribute_provided(attribute)
           instance_variable_set(:"@tainbox_#{attribute}", nil)
         end
       end
