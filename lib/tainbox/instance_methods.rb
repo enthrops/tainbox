@@ -41,6 +41,10 @@ module Tainbox::InstanceMethods
     end
   end
 
+  def provided_attributes
+    self.class.tainbox_attributes & tainbox_provided_attributes
+  end
+
   def attribute_provided?(attribute)
     tainbox_provided_attributes.include?(attribute.to_sym)
   end
