@@ -57,6 +57,47 @@ describe Tainbox do
     expect { person.new('Hello world') }.to raise_exception(ArgumentError, exception)
   end
 
+  describe 'defining getter' do
+    let(:person) do
+      Class.new do
+        include Tainbox
+        attribute :name, default: 'Julyan', writer: false
+      end.new
+    end
+
+    it 'read the default value' do
+      expect(person.name).to eq('Julyan')
+    end
+
+    it 'does not allow to change the attribute value' do
+      expect { person.name = 'Adele' }.to raise_exception(NoMethodError)
+    end
+  end
+
+  describe 'defining setter' do
+    let(:person) do
+      Class.new do
+        include Tainbox
+        attribute :name, default: 'Julyan', reader: false
+      end.new
+    end
+
+    it 'has the default value' do
+      expect(person.send(:name)).to eq('Julyan')
+    end
+
+    it 'allows to change the attribute value' do
+      person.name = 'Adele'
+      expect(person.send(:name)).to eq('Adele')
+    end
+
+    describe '#attributes' do
+      it "doesn't contain defined attribute" do
+        expect(person.attributes).not_to have_key(:name)
+      end
+    end
+  end
+
   describe 'string converter options' do
 
     describe 'no options' do

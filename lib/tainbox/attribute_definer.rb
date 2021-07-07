@@ -13,7 +13,7 @@ class Tainbox::AttributeDefiner
     @requested_args = requested_args
   end
 
-  def define_getter
+  def define_getter(public_access = true)
     klass.tainbox_register_attribute(attribute_name)
     attribute = attribute_name
 
@@ -22,10 +22,11 @@ class Tainbox::AttributeDefiner
         value = instance_variable_get(:"@tainbox_#{attribute}")
         value.is_a?(Tainbox::DeferredValue) ? instance_exec(&value.proc) : value
       end
+      send(:private, attribute) unless public_access
     end
   end
 
-  def define_setter
+  def define_setter(public_access = true)
     klass.tainbox_register_attribute(attribute_name)
 
     attribute = attribute_name
@@ -33,12 +34,12 @@ class Tainbox::AttributeDefiner
     type = requested_type
 
     klass.tainbox_layer.instance_eval do
-
       define_method("#{attribute}=") do |value|
         tainbox_register_attribute_provided(attribute)
         value = Tainbox::TypeConverter.new(type, value, options: args).convert if type
         instance_variable_set(:"@tainbox_#{attribute}", value)
       end
+      send(:private, "#{attribute}=") unless public_access
 
       define_method("tainbox_set_default_#{attribute}") do
         if args.has_key?(:default)
